@@ -1,0 +1,203 @@
+GHERKIN LANGUAGE,
+
+Scenario:
+Given - precondition
+When  - actions we need to perform
+And   - supporting tag
+Then  - expected result
+
+What is framework ?
+-- it is an organized structure of folders and packages which allows us to write clean and maintanable code
+
+Build Management Tool?
+--  maven
+
+pom.xml is the main configuration file in maven project.
+
+main - it is used to write the code for development
+test - it is used to write the code to test the application
+    java - for tech/coding we use directory
+    resources - for non tech/non code we use resouces
+
+cucumber - it is a tool
+         - it supports BDD
+         - we use gerkhin language (plain english text) to write scenarios
+         - it works with JUnit
+
+Scenario: it is a test case
+Given - precondition
+When  - actions we need to perform
+And   - supporting tag
+Then  - results
+
+User Story(US) Employee
+
+Scenario - Search employee by ID
+Given user is navigated to HRMS Application
+When  user enters valid admin credentials
+And   user clicks on login buton
+And   user navigates to employee list page
+When  user enters valid employee ID
+And   user clicks on search button
+Then  user is able to see employee information
+
+Scenario - Search employee by name
+Given user is navigated to HRMS Application
+When  user enters valid admin credentials
+And   user clicks on login buton
+And   user navigates to employee list page
+When  user enters valid employee name
+And   user clicks on search button
+Then  user is able to see employee information
+
+***file where to write BDD scenarios is feature file
+this file has .feature extension
+
+class 03
+
+We use feature file to write our scenarios
+- search employee by ID
+- search employee by name
+
+In feature file we write scenarios using gherkin language
+-Given When And Then Scenario Feature
+
+class 04
+
+Common method clas in our framework is used to write all methods
+we will be using in the majority of scenarios(code reusability)
+
+sendText() method, click() method,jsClick() method
+
+in constants class we provide implicit wait ,explicit wait values and test data path
+
+POM:
+page object model is a design pattern
+according to Page Object Model ; we have to create seperate classes for the all the screens avaliable in the application
+
+What is object repository?
+//Login page sayfasına yazdığımız key olarak locatorlar aşağıyı oku ve ezberle!!!
+
+Where did u implement your Object repository in your framework?
+In our framework we have implemented Page Object Design pattern,according to the POM design pattern
+we created seperate classes for seperate screens or pages available in the application
+on every single page we provide respective locators with the key
+and then we use all these locators in our step definitions part
+
+-of course by using @Findby and page factory
+
+class 05
+
+Creating multiple steps classes for multiple feature files.
+
+Page Object Model Design Pattern we use it our framework
+in common methods we are calling page initializers method this method is going to call the object of page
+classes which will call the constructor and there constructors will initialize all the web elements
+
+Cucumber configuration file;Runner class
+
+class 06
+
+Runner class - we use this class to execute test cases in cucumber
+Runner class or cucumber needs JUnit to complete execution
+that was the main reason that we have Junit dependencies in our framework
+
+Cucumber options:
+/*
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+import org.junit.runner.RunWith;
+
+@RunWith(Cucumber.class)
+@CucumberOptions(
+//we use to provide the path of all the feature files
+    features = "src/test/resources/features/EmployeeSearch.feature" ,
+
+//glue is where we find implementations for gherkin steps
+//we provide the path of package to get all the step definitions
+    glue = "steps"
+
+//dryRun we use to get the step definitions of undefined steps
+//if we set it to true, it will quickly scan all gherkin steps whether they are implemented or not
+//if we set it to true, it stops actual execution
+//to execute scripts in real time, we should set it to false,
+    dryRun = false,
+
+//monochrome means the console output for cucumber test is having irrelevant information
+//when we set it to true, it simply removes  all the irrelevant information
+    monochrome = true,
+
+//tags will identify the scenario based on the tag we provide in the feature file
+//use or if we need to execute scenarios from logical or keybord which will execute either of the
+//scenario having tag
+//use and if we need to execute scenarios from logical and keyword which will execute the scenarios
+//having both the tags in it
+    tags = "@smoke and @sprint12"
+
+
+)
+*/
+
+Background : we take common steps from scenarios and put them in the background
+
+Hooks : we use hooks to provide precondition and post condition to all the scenarios
+2 types of hooks we have in cucumber - @before and @after
+We always create hooks class in steps package
+
+Background vs hoops:
+Background - it is applicable to one feature file
+Hooks - it is applicable to all the feature files
+
+Data driven testing
+- mean execution of ONE script across MULTIPLE data set
+- using examples table and scenario outline
+- using data table
+
+interview Question
+My framework is a hybrid framework that supports both behavior driven development as well as data driven testing
+it supports both BDD and DDT
+BDD means supports gherkin language
+DDT mean execution of one script across multiple data set
+
+There are 3 types of framework
+KWD - Keyword driven framework
+BDD - Behavior driven development
+DDT - Data driven testing
+
+class 07
+
+Assertions
+
+It comes from JUnit
+There is 2 type of assertion that we will use
+1.Comparison
+2.Existence
+
+class 08-09
+What is maven?
+maven - is a build management tool which helps us to add dependencies in our framework
+to our project object model
+and we should use "maven surefile plugin"
+
+from cmd
+use cd to change directory from where we can see POM.xml
+
+to clean the project - mvn clean from cmd/terminal
+to run the project - mvn test from cmd/terminal
+override the tags from cmd - mvn clean verify -Dcucumber.filter.tags="@latest"
+
+mvn clean - it cleans your target folder / it removes target folder
+mvn test  - to execute our test cases
+            when we are executing mvn test it will first run my verify
+            then it will run my package than it will run my test
+verify    - verifies your code
+package   - convert your code to packages
+
+
+
+
+
+
+
+
+
