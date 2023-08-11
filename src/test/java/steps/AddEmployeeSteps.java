@@ -12,7 +12,6 @@ import utils.Constants;
 import utils.DBUtils;
 import utils.ExcelReader;
 
-import java.sql.SQLOutput;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -150,15 +149,16 @@ public class AddEmployeeSteps extends CommonMethods {
     @And("user query the database for same employee id")
     public void userQueryTheDatabaseForSameEmployeeId() {
         String query = "select * from hs_hr_employees where employee_id ='" + empId + "'";
-        dbfirstName = DBUtils.getDataFromDB(query).get(0).get("emp_firstname");
-        dbempId = DBUtils.getDataFromDB(query).get(0).get("employee_id");
+        List<Map<String, String>> tableData = DBUtils.getDataFromDB(query);
+        dbfirstName = tableData.get(0).get("emp_firstname");
+        dbempId = tableData.get(0).get("employee_id");
     }
 
     @Then("user verifies the results")
     public void userVerifiesTheResults() {
-        System.out.println("Firstname from frontEnd "+firstName);
-        System.out.println("Firstname from backEnd "+dbfirstName);
-        Assert.assertEquals(firstName,dbfirstName);
-        Assert.assertEquals(empId,dbempId);
+        System.out.println("Firstname from frontEnd " + firstName);
+        System.out.println("Firstname from backEnd " + dbfirstName);
+        Assert.assertEquals(firstName, dbfirstName);
+        Assert.assertEquals(empId, dbempId);
     }
 }
