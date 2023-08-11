@@ -1,6 +1,7 @@
 package steps;
 
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
@@ -8,13 +9,21 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import utils.CommonMethods;
 import utils.Constants;
+import utils.DBUtils;
 import utils.ExcelReader;
 
+import java.sql.SQLOutput;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 public class AddEmployeeSteps extends CommonMethods {
+
+    String empId;
+    String dbempId;
+    String firstName;
+    String dbfirstName;
+
     @When("user clicks on PIM option")
     public void user_clicks_on_pim_option() {
         click(employeeSearchPage.pimOption);
@@ -120,15 +129,36 @@ public class AddEmployeeSteps extends CommonMethods {
                 String expectedData = empIdValue + " " + mapNewEmp.get("FirstName") + " " + mapNewEmp.get("MiddleName") + " " +
                         mapNewEmp.get("LastName");
 
-                Assert.assertEquals(expectedData,rowText);
+                Assert.assertEquals(expectedData, rowText);
             }
 
             click(employeeSearchPage.addEmployeeOption);
-            Thread.sleep(2000);;
+            Thread.sleep(2000);
+            ;
 
         }
 
 
     }
 
+    @And("user grabs the employee id")
+    public void userGrabsTheEmployeeId() {
+        empId = addEmployeePage.emplDdLocator.getAttribute("value");
+        firstName = addEmployeePage.firstNameField.getAttribute("value");
+    }
+
+    @And("user query the database for same employee id")
+    public void userQueryTheDatabaseForSameEmployeeId() {
+        String query = "select * from hs_hr_employees where employee_id ='" + empId + "'";
+        dbfirstName = DBUtils.getDataFromDB(query).get(0).get("emp_firstname");
+        dbempId = DBUtils.getDataFromDB(query).get(0).get("employee_id");
+    }
+
+    @Then("user verifies the results")
+    public void userVerifiesTheResults() {
+        System.out.println("Firstname from frontEnd "+firstName);
+        System.out.println("Firstname from backEnd "+dbfirstName);
+        Assert.assertEquals(firstName,dbfirstName);
+        Assert.assertEquals(empId,dbempId);
+    }
 }

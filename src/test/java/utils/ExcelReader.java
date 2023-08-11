@@ -28,7 +28,7 @@ public class ExcelReader {
         }
 
     }
-    //open the sheet in excel file
+    //open the sheet in Excel file
     public static void getSheet(String sheetName) {
         sheet = workbook.getSheet(sheetName);
     }
