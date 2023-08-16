@@ -6,6 +6,7 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.junit.Test;
 import utils.APIConstants;
+import utils.APIPayloadConstants;
 
 import static io.restassured.RestAssured.given;
 
@@ -16,13 +17,10 @@ public class GenerateTokenSteps {
 
     @Given("a JWT is generated")
     public void a_jwt_is_generated() {
-        RequestSpecification request = given().header("Content-Type", "application/json").
-                body("{\n" +
-                        "  \"email\": \"batch12team@test.com\",\n" +
-                        "  \"password\": \"Test@123\"\n" +
-                        "}");
+        RequestSpecification request = given().header(APIConstants.HEADER_CONTENT_TYPE, APIConstants.HEADER_CONTENT_TYPE_VALUE).
+                body(APIPayloadConstants.generateTokenPayload());
 
-        Response response = request.when().post("/generateToken.php");
+        Response response = request.when().post(APIConstants.GENERATE_TOKEN_URI);
         token = "Bearer " + response.jsonPath().getString("token");
         System.out.println(token);
 

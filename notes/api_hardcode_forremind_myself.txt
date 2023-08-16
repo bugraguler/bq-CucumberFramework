@@ -119,7 +119,5 @@ public class HardCodedExamples {
             String empID = js.getString("Employees[" + i + "].employee_id");
             System.out.println(empID);
         }
-
-
     }
 }

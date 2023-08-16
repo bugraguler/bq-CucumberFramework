@@ -1,6 +1,14 @@
 package utils;
 //we provide body for crud operations
 public class APIPayloadConstants {
+    public static String generateTokenPayload(){
+        String generateToken = "{\n" +
+                "  \"email\": \"batch12team@test.com\",\n" +
+                "  \"password\": \"Test@123\"\n" +
+                "}";
+        return generateToken;
+    }
+
     public static String createEmployeePayload(){
         String createEmployee = "{\n" +
                 "  \"emp_firstname\": \"Burak\",\n" +

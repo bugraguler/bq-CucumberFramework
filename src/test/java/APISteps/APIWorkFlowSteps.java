@@ -66,6 +66,7 @@ public class APIWorkFlowSteps {
     @When("a GET call is made to retrieve the created employee")
     public void aGETCallIsMadeToRetrieveTheCreatedEmployee() {
         response = request.when().get(APIConstants.GET_ONE_EMPLOYEE_URI);
+        response.prettyPrint();
     }
 
     @Then("the status call for this employee is {int}")
@@ -99,6 +100,5 @@ public class APIWorkFlowSteps {
                 Assert.assertEquals(expectedValue,actualValue);
             }
         }
-
     }
 }
