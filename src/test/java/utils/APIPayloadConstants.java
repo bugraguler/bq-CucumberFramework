@@ -1,0 +1,17 @@
+package utils;
+//we provide body for crud operations
+public class APIPayloadConstants {
+    public static String createEmployeePayload(){
+        String createEmployee = "{\n" +
+                "  \"emp_firstname\": \"Burak\",\n" +
+                "  \"emp_lastname\": \"Kut\",\n" +
+                "  \"emp_middle_name\": \"mmm\",\n" +
+                "  \"emp_gender\": \"M\",\n" +
+                "  \"emp_birthday\": \"1988-08-08\",\n" +
+                "  \"emp_status\": \"QA\",\n" +
+                "  \"emp_job_title\": \"Probation\"\n" +
+                "}";
+        return createEmployee;
+    }
+
+}

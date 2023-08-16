@@ -1,0 +1,125 @@
+package API;
+
+import io.restassured.RestAssured;
+import io.restassured.path.json.JsonPath;
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
+import org.junit.Assert;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runners.MethodSorters;
+
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
+
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+public class HardCodedExamples {
+
+    String baseURI = RestAssured.baseURI = "http://hrm.syntaxtechs.net/syntaxapi/api";
+    String token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2OTIxODc4NDUsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY5MjIzMTA0NSwidXNlcklkIjoiNTg2NyJ9.ouiDM4NCB9Ey9lCFDq3CdIdEO6UZUCxHEWfTwjdTJLc";
+    static String employee_id;
+
+    @Test
+    public void aaacreateEmployee() {
+        RequestSpecification request = given().header("Content-Type", "application/json").
+                header("Authorization", token).
+                body("{\n" +
+                        "  \"emp_firstname\": \"Burak\",\n" +
+                        "  \"emp_lastname\": \"Kut\",\n" +
+                        "  \"emp_middle_name\": \"OOPS\",\n" +
+                        "  \"emp_gender\": \"M\",\n" +
+                        "  \"emp_birthday\": \"1988-08-08\",\n" +
+                        "  \"emp_status\": \"QA\",\n" +
+                        "  \"emp_job_title\": \"Probation\"\n" +
+                        "}");
+        Response response = request.when().post("/createEmployee.php");
+        response.prettyPrint();
+        response.then().assertThat().statusCode(201);
+
+        //Hamcrest matchers
+        response.then().assertThat().body("Message", equalTo("Employee Created"));
+        response.then().assertThat().body("Employee.emp_firstname", equalTo("Burak"));
+
+        //using jsonPath(), to specify the key in the body so that it returns the value against it
+        employee_id = response.jsonPath().getString("Employee.employee_id");
+        System.out.println(employee_id);
+
+    }
+
+    @Test
+    public void bbbgetCreatedEmployee() {
+        RequestSpecification request = given().header("Content-Type", "application/json").
+                header("Authorization", token).
+                queryParam("employee_id", employee_id);
+
+        Response response = request.when().get("/getOneEmployee.php");
+        response.prettyPrint();
+        response.then().assertThat().statusCode(200);
+        String tempId = response.jsonPath().getString("employee.employee_id");
+        System.out.println(tempId);
+        Assert.assertEquals(tempId, employee_id);
+
+    }
+
+    @Test
+    public void cccupdateEmployee() {
+        RequestSpecification request = given().header("Content-Type", "application/json").
+                header("Authorization", token).
+                body("{\n" +
+                        "        \"employee_id\": \"" + employee_id + "\",\n" +
+                        "        \"emp_firstname\": \"Burak\",\n" +
+                        "        \"emp_middle_name\": \"noMiddleName\",\n" +
+                        "        \"emp_lastname\": \"Kut\",\n" +
+                        "        \"emp_birthday\": \"1968-08-08\",\n" +
+                        "        \"emp_gender\": \"M\",\n" +
+                        "        \"emp_job_title\": \"QA Tester\",\n" +
+                        "        \"emp_status\": \"Manager\"\n" +
+                        "    }");
+        Response response = request.when().put("/updateEmployee.php");
+        response.prettyPrint();
+        response.then().assertThat().statusCode(200);
+
+
+    }
+
+    @Test
+    public void dddgetUpdatedEmployee() {
+        RequestSpecification request = given().header("Content-Type", "application/json").
+                header("Authorization", token).
+                queryParam("employee_id", employee_id);
+        Response response = request.when().get("/getOneEmployee.php");
+        response.prettyPrint();
+        response.then().assertThat().statusCode(200);
+
+    }
+
+    @Test
+    public void eeegetallEmployees() {
+        RequestSpecification request = given().header("Content-Type", "application/json").
+                header("Authorization", token);
+
+        Response response = request.when().get("/getAllEmployees.php");
+
+        //it returns string of response
+        String allEmployees = response.prettyPrint();
+
+        //jsonPath() vs jsonPath     <-- sondaki class
+        //jsonPath is a class that contains method for converting the values into json object
+        //jsonPath() is a method belongs to jsonPath class
+
+        //Creating object of jsonPath class
+        JsonPath js = new JsonPath(allEmployees);
+
+        //retrieving the total number of employees
+        int count = js.getInt("Employees.size");
+        System.out.println(count);
+
+        //to print only employee id of all the employees
+        for (int i = 0; i < count; i++) {
+            String empID = js.getString("Employees[" + i + "].employee_id");
+            System.out.println(empID);
+        }
+
+
+    }
+}

@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
         features = "src/test/resources/features/",
         //glue is where we find implementations for gherkin steps
         //we provide the path of package to get all the step definitions
-        glue = "steps",
+        glue = "APISteps",
         //dryRun we use to get the step definitions of undefined steps
         //if we set it to true, it will quickly scan all gherkin steps whether they are implemented or not
         //if we set it to true, it stops actual execution
@@ -19,21 +19,18 @@ import org.junit.runner.RunWith;
         // (monochrome) it means the console output for cucumber test is having irrelevant information
         //when we set it to true, it simply removes  all the irrelevant information
         monochrome = true,
-        tags = " @api" // we can write tags = "@smoke or @batch12 or @sprint12"
+        tags = " @api" ,  // we can write tags = "@smoke or @batch12 or @sprint12"
         // we especially gives @smoke @regression @test tag - it means we are working on it
         // when we finish to work over it we change it
 
         //html report will be generated under target folder
         //having both the tags in it
-        /*plugin = {"html:target/cucumber.html" ,"pretty","json:target/cucumber.json",
+        plugin = {"html:target/cucumber.html" ,"pretty","json:target/cucumber.json",
                 "rerun:target/failed.txt"
 
         }
 
-         */
 
 )
-
-public class RunnerClass {
-
+public class APIRunner {
 }
