@@ -15,6 +15,9 @@ import static org.hamcrest.Matchers.equalTo;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class HardCodedExamples {
 
+**java restassured api is a domain specific language which allows us to pass or transmit the data in JSON format
+
+
     String baseURI = RestAssured.baseURI = "http://hrm.syntaxtechs.net/syntaxapi/api";
     String token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2OTIxODc4NDUsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTY5MjIzMTA0NSwidXNlcklkIjoiNTg2NyJ9.ouiDM4NCB9Ey9lCFDq3CdIdEO6UZUCxHEWfTwjdTJLc";
     static String employee_id;

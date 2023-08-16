@@ -86,7 +86,7 @@ public class APIWorkFlowSteps {
         //data comes from feature file
         List<Map<String, String>> expectedData = dataTable.asMaps(String.class, String.class);
 
-        //data comes from get call body
+        //data comes from get call response body
         Map<String, String> actualData = response.body().jsonPath().get(empObject);
 
         for (Map<String, String> singlePairOfData : expectedData
@@ -100,5 +100,19 @@ public class APIWorkFlowSteps {
                 Assert.assertEquals(expectedValue,actualValue);
             }
         }
+    }
+
+    @Given("a request is prepared to create an employee via Json payload")
+    public void aRequestIsPreparedToCreateAnEmployeeViaJsonPayload() {
+        request = given().header(APIConstants.HEADER_CONTENT_TYPE, APIConstants.HEADER_CONTENT_TYPE_VALUE).
+                header(APIConstants.HEADER_AUTHORIZATION, GenerateTokenSteps.token).body(APIPayloadConstants.createEmployeePayloadViaJson());
+    }
+
+    @Given("a request is prepared to create an employee via dynamic payload {string},{string},{string},{string},{string},{string},{string}")
+    public void a_request_is_prepared_to_create_an_employee_via_dynamic_payload
+            (String firstName, String lastName, String middleName, String gender, String dob, String status, String jobTitle) {
+        request = given().header(APIConstants.HEADER_CONTENT_TYPE, APIConstants.HEADER_CONTENT_TYPE_VALUE).
+                header(APIConstants.HEADER_AUTHORIZATION, GenerateTokenSteps.token).body(APIPayloadConstants.createEmployeeDynamic(firstName,
+                        lastName,middleName,gender,dob,status,jobTitle));
     }
 }
