@@ -17,6 +17,7 @@ Feature: This feature covers all the API related scenario
     Given a request is prepared to get an employee
     When a GET call is made to retrieve the created employee
     Then the status call for this employee is 200
-
-  @api
-  Scenario: 
+    And the employee we are getting having ID "employee.employee_id" must match with the globally stored employee id
+    And the retrieved data at "employee" object must match with the data used to create the employee id "employee.employee_id"
+      | emp_firstname | emp_lastname | emp_middle_name | emp_gender | emp_birthday | emp_status | emp_job_title |
+      | Burak         | Kut          | mmm             | Male       | 1988-08-08   | QA         | Probation     |

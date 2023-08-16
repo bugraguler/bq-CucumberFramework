@@ -1,13 +1,19 @@
 package APISteps;
 
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import org.junit.Assert;
 import utils.APIConstants;
 import utils.APIPayloadConstants;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
@@ -53,8 +59,8 @@ public class APIWorkFlowSteps {
 
     @Given("a request is prepared to get an employee")
     public void aRequestIsPreparedToGetAnEmployee() {
-        request = given().header(APIConstants.HEADER_CONTENT_TYPE,APIConstants.HEADER_CONTENT_TYPE_VALUE).
-                header(APIConstants.HEADER_AUTHORIZATION,GenerateTokenSteps.token).queryParam("employee_id",employee_id);
+        request = given().header(APIConstants.HEADER_CONTENT_TYPE, APIConstants.HEADER_CONTENT_TYPE_VALUE).
+                header(APIConstants.HEADER_AUTHORIZATION, GenerateTokenSteps.token).queryParam("employee_id", employee_id);
     }
 
     @When("a GET call is made to retrieve the created employee")
@@ -65,5 +71,34 @@ public class APIWorkFlowSteps {
     @Then("the status call for this employee is {int}")
     public void theStatusCallForThisEmployeeIs(int statusCode) {
         response.then().assertThat().statusCode(statusCode);
+    }
+
+    @And("the employee we are getting having ID {string} must match with the globally stored employee id")
+    public void theEmployeeWeAreGettingHavingIDMustMatchWithTheGloballuStoredEmployeeId(String empID) {
+        String tempID = response.jsonPath().getString(empID); //from get call
+        Assert.assertEquals(tempID, employee_id);
+
+    }
+
+    @And("the retrieved data at {string} object must match with the data used to create the employee id {string}")
+    public void theRetrievedDataFromObjectMustMatchWithTheDataUsedToCreateTheEmployeeId(String empObject, String responseEmpID, DataTable dataTable) {
+        //data comes from feature file
+        List<Map<String, String>> expectedData = dataTable.asMaps(String.class, String.class);
+
+        //data comes from get call body
+        Map<String, String> actualData = response.body().jsonPath().get(empObject);
+
+        for (Map<String, String> singlePairOfData : expectedData
+        ) {
+            //it will return the set of keys from the map
+            Set<String> keys = singlePairOfData.keySet();
+            for (String key : keys
+            ) {
+                String expectedValue = singlePairOfData.get(key);
+                String actualValue = actualData.get(key);
+                Assert.assertEquals(expectedValue,actualValue);
+            }
+        }
+
     }
 }
