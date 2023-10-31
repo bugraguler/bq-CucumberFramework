@@ -30,9 +30,9 @@ Feature: This feature covers all the API related scenario
     And the employee created contains key "Message" and value "Employee Created"
     And the employee id "Employee.employee_id" is stored as a global variable to be used for other calls
 
-  @dynamic
+  @dynamicApi
   Scenario: Adding an employee using Dynamic object
-    Given a request is prepared to create an employee via dynamic payload "Alican","Bey","Q","M","2000-01-01","TT","PP"
+    Given a request is prepared to create an employee via dynamic payload "Ali","Bey","Q","M","2000-01-01","TT","PP"
     When a POST call is made to create an employee
     Then the status code for the created employee is 201
     And the employee created contains key "Message" and value "Employee Created"
