@@ -1,0 +1,29 @@
+agent any
+
+stages{
+
+    stage('Compile Stage'){
+        steps{
+            withMaven(maven:'3.0.0-M6'){
+                sh 'maven clean install'
+            }
+        }
+    }
+    stage('Test Stage'){
+            steps{
+                withMaven(maven:'3.0.0-M6'){
+                    sh 'maven test'
+                }
+            }
+    }
+    stage ('Cucumber Reports'){
+        steps{
+            Cucumber buildStatus:"UNSTABLE",
+            fileIncludePattern:"**/cucumber.json",
+            jsonReportDirectory:'target'
+        }
+
+
+    }
+
+}
