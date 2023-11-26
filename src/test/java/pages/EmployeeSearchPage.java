@@ -26,7 +26,9 @@ public class EmployeeSearchPage extends CommonMethods {
     @FindBy(id = "searchBtn")
     public WebElement searchButton;
 
-    public EmployeeSearchPage(){            //we created constructor because constructors has been automatically called when we create an object of a class
+    //we created constructor because constructors has been automatically called when we create an object of a class
+
+    public EmployeeSearchPage(){
         PageFactory.initElements(driver,this);
     }
 }

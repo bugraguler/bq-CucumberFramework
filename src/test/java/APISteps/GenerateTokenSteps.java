@@ -7,7 +7,6 @@ import io.restassured.specification.RequestSpecification;
 import org.junit.Test;
 import utils.APIConstants;
 import utils.APIPayloadConstants;
-
 import static io.restassured.RestAssured.given;
 
 public class GenerateTokenSteps {
