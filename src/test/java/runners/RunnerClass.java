@@ -19,7 +19,7 @@ import org.junit.runner.RunWith;
         // (monochrome) it means the console output for cucumber test is having irrelevant information
         //when we set it to true, it simply removes  all the irrelevant information
         monochrome = true,
-        tags = "@latest", // we can write tags = "@smoke or @batch12 or @sprint12"
+        tags = "@sanity", // we can write tags = "@smoke or @batch12 or @sprint12"
         // we especially gives @smoke @regression @test tag - it means we are working on it
         // when we finish to work over it we change it
 

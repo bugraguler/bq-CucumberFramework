@@ -7,7 +7,7 @@ Feature: Adding the employees in HRMS Application
     When user clicks on PIM option
     And user clicks on add employee option
 
-  @regression @denemeadd
+   @mysmoke
   Scenario: Adding one employee from feature file
     #Given user is navigated to HRMS application
     #When user enters valid admin credentials
@@ -25,7 +25,7 @@ Feature: Adding the employees in HRMS Application
     And user clicks on save button
     Then employee added successfully
 
-  @test @test123
+  @test @test123 @sanity
   Scenario Outline: Adding multiple employees
     And user provides "<firstName>" "<middleName>" and "<lastName>"
     And user clicks on save button

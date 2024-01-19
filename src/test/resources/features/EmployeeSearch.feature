@@ -6,7 +6,7 @@ Feature:US-12345 Search an employee in HRMS
     And user clicks on login button
     And user navigates to employee list page
 
-  @smoke @regression
+  @smoke @regression @sanity
   Scenario: Search an employee by id
     # Given user is navigated to HRMS application
     # When user enters valid admin credentials
